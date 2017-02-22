@@ -1,12 +1,26 @@
+import logging
 from awslimitchecker.checker import AwsLimitChecker
-from pprint import pprint
+
+logging.basicConfig()
+logger = logging.getLogger()
 
 
 class awsclient(object):
-    def __init__(self):
-        self.region = "eu-west-1"
-        
-    def get_limits(self):
-        client = AwsLimitChecker(region=self.region)
-        thresholds = client.check_thresholds()
-        pprint(thresholds)
+    def __init__(self, region):
+        self.region = region
+    
+    def connect(self, region):
+        try:
+            c = AwsLimitChecker(region=region)
+        except:
+            print("Connection error")
+
+        return c
+
+    def get_thresholds(self):
+        conn = self.connect(self.region)
+        thresholds = conn.check_thresholds(use_ta=False)
+        return thresholds
+
+    # def get_limits(self):
+
