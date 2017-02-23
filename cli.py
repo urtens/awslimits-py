@@ -2,9 +2,9 @@
 
 import argparse
 from sys import exit
-from awslimits import awsclient
+from awslimits import botoclient
+import json
 
 if __name__ == '__main__':
-    print('This is the cli')
-    aws_client = awsclient("eu-west-1")
-    print(aws_client.get_thresholds())
+    client = botoclient("eu-west-1")
+    print(json.dumps(client.get_current_usage()))
